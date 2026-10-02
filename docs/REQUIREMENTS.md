@@ -10,8 +10,18 @@ The decision date is fixed at 2026-09-30. Tenure and refresh age are counted in 
 | --- | --- | --- |
 | engineer | every 36 months | every 36 months |
 | manager | every 24 months | every 36 months |
+| ceo | every 12 months, and only after a new model of that item has launched | every 12 months, and only after a new model of that item has launched |
 
 An item that is not a laptop or a monitor is not in the policy.
+
+The current models launched on these dates:
+
+| Item | Launched |
+| --- | --- |
+| laptop | 2026-03-01 |
+| monitor | 2025-06-01 |
+
+Engineers and managers do not use these dates. The CEO rule does.
 
 ## Employees
 
@@ -21,6 +31,7 @@ An item that is not a laptop or a monitor is not in the policy.
 | E1002 | manager | 2023-08-01 | 2025-06-15 | 2023-11-01 |
 | E1003 | engineer | 2021-01-15 | 2022-08-01 | none |
 | E1004 | engineer | 2024-01-01 | 2024-02-01 | none |
+| E1005 | ceo | 2018-01-15 | 2025-01-10 | 2025-08-01 |
 
 ## Eligibility
 
@@ -29,7 +40,7 @@ An item that is not a laptop or a monitor is not in the policy.
 1. Unknown employee → `{"error": "unknown_employee"}`.
 2. Item is not a laptop or a monitor → `{"verdict": "undetermined", "reason": "item_not_in_policy"}`.
 3. No issue date for that item → eligible.
-4. Whole months since the issue date are at least that role's interval → eligible.
+4. Whole months since the issue date are at least that role's interval, and, for a CEO, the current model of that item launched after the issue date → eligible.
 5. Otherwise → ineligible.
 
 An unknown role returns `{"error": "unknown_role"}` from the policy lookup.
@@ -53,3 +64,6 @@ A clear eligible result is an approval. A clear ineligible result is a denial. A
 | E1002 wants a new laptop because the current one is slow. | Deny. The laptop was issued 2025-06-15, inside the manager's 24-month interval. |
 | E1003 says the laptop was stolen. | Escalate. The refresh window has elapsed, but theft is not a scheduled refresh. |
 | E1004 needs a drawing tablet. | Escalate. A drawing tablet is not in the policy. |
+| E1005 needs a new laptop because a new one launched. | Approve. The laptop was issued 2025-01-10, 20 months before 2026-09-30, and the current laptop launched on 2026-03-01. |
+
+A monitor request for E1005 is ineligible. Thirteen months have passed, but the current monitor launched on 2025-06-01, before the monitor on file. That case is not a sixth demo.

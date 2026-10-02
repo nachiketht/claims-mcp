@@ -1,0 +1,3 @@
+initialize: claims
+tools: ['ding']
+ding: dong
