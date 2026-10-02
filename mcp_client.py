@@ -65,6 +65,8 @@ class StdioMcpClient(ToolCaller):
         self._loop.call_soon_threadsafe(self._requests.put_nowait, None)
         try:
             self._done.result(timeout=CALL_TIMEOUT)
+        except Exception:
+            pass
         finally:
             self._loop.call_soon_threadsafe(self._loop.stop)
             self._thread.join(timeout=CALL_TIMEOUT)
@@ -76,7 +78,17 @@ class StdioMcpClient(ToolCaller):
             self._start()
         future: concurrent.futures.Future = concurrent.futures.Future()
         self._loop.call_soon_threadsafe(self._requests.put_nowait, (call, future))
-        return future.result(timeout=CALL_TIMEOUT)
+        concurrent.futures.wait(
+            [future, self._done],
+            timeout=CALL_TIMEOUT,
+            return_when=concurrent.futures.FIRST_COMPLETED,
+        )
+        if future.done():
+            return future.result()
+        if self._done.done():
+            error = self._done.exception()
+            raise RuntimeError(f"the MCP server stopped: {error!r}") from error
+        raise RuntimeError(f"the MCP server did not answer within {CALL_TIMEOUT} seconds")
 
     def _start(self) -> None:
         self._loop = asyncio.new_event_loop()
@@ -86,11 +98,13 @@ class StdioMcpClient(ToolCaller):
         self._done = asyncio.run_coroutine_threadsafe(self._serve(ready), self._loop)
         try:
             ready.result(timeout=CALL_TIMEOUT)
-        except BaseException:
+        except BaseException as error:
             self._loop.call_soon_threadsafe(self._loop.stop)
             self._thread.join(timeout=CALL_TIMEOUT)
             self._loop.close()
             self._loop = None
+            if isinstance(error, Exception):
+                raise RuntimeError(f"the MCP server did not start: {error!r}") from error
             raise
 
     async def _serve(self, ready: concurrent.futures.Future) -> None:

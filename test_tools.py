@@ -1,5 +1,7 @@
 from datetime import date
 
+import pytest
+
 from catalog import MemoryCatalog
 from enums import Item, Role
 from review_queue import JsonFileQueue
@@ -223,6 +225,24 @@ def test_second_flag_for_the_same_request_leaves_one_record(tmp_path):
     second = flag_for_human_review("E1003", request, "again", queue)
     assert second == first
     assert queue._read() == [first]
+
+
+def test_blank_employee_id_or_request_does_not_write(tmp_path):
+    """A review flag with a blank employee id or a blank request returns an error and writes nothing."""
+    path = tmp_path / "review_queue.json"
+    queue = JsonFileQueue(path)
+    assert flag_for_human_review(" ", "stolen laptop", "theft", queue) == {
+        "error": "empty_employee_id"
+    }
+    assert flag_for_human_review("E1003", "", "theft", queue) == {"error": "empty_request"}
+    assert not path.exists()
+
+
+def test_a_bad_decision_date_names_the_setting(monkeypatch):
+    """CLAIMS_AS_OF that is not a date raises an error that names the setting and the format."""
+    monkeypatch.setenv("CLAIMS_AS_OF", "yesterday")
+    with pytest.raises(ValueError, match="CLAIMS_AS_OF must be a date like 2026-10-02"):
+        check_request_eligibility("E1001", "monitor")
 
 
 def test_review_flag_uses_the_configured_queue(tmp_path, monkeypatch):

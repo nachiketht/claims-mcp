@@ -1,6 +1,6 @@
 # claims-mcp
 
-An MCP server for equipment requests. It looks up an employee and that role's refresh intervals. The decision date is the day you run it.
+An MCP server and ReAct agent for equipment requests. The server looks up an employee and that role's refresh intervals. The agent approves, denies, or escalates each request, and reflects on its draft before the decision is final. The decision date is `CLAIMS_AS_OF` (YYYY-MM-DD) when it is set, otherwise the day you run it.
 
 Run these commands from the repository root.
 
@@ -52,7 +52,7 @@ export CLAIMS_AS_OF=2026-10-02
 python demo.py
 ```
 
-`python demo.py E1001` runs one request. Each transcript is written under `evidence/`. If the model cannot be reached, the command prints `cannot reach the model at host.docker.internal:11434` and writes no approval.
+`python demo.py E1001` runs one request. Each transcript is written under `evidence/`. If the model cannot be reached, the command prints `cannot reach the model qwen3:8b at http://host.docker.internal:11434` and writes no approval. A model error (such as a model that is not pulled) or an MCP server that does not start or stops answering is printed the same way.
 
 These are the recorded runs with `qwen3:8b` on 2026-10-02:
 
@@ -60,16 +60,19 @@ These are the recorded runs with `qwen3:8b` on 2026-10-02:
 | --- | --- | --- | --- | --- |
 | `E1001` | E1001 needs a monitor. | No monitor on file | approved | `evidence/05-approve-monitor.txt` |
 | `E1005` | E1005 needs a new laptop because a new one launched. | CEO: 12 months passed and a newer model launched | approved | `evidence/09-approve-ceo-laptop.txt` |
-| `E1002` | E1002 wants a new laptop because the current one is slow. | Inside the manager's 24-month interval; reflection changes the draft to denied | denied | `evidence/06-deny-laptop.txt` |
+| `E1002` | E1002 wants a new laptop because the current one is slow. | Inside the manager's 24-month interval | denied | `evidence/06-deny-laptop.txt` |
 | `ceo-monitor` | E1005 needs a new monitor. | CEO: no newer monitor has launched | denied | `evidence/12-deny-ceo-monitor.txt` |
-| `E1003` | E1003 says the laptop was stolen. | Stolen, though the refresh schedule says eligible | escalated | `evidence/07-escalate-stolen.txt` |
-| `broken` | E1002 says the monitor is broken. | Broken; the model does not flag, so the guardrail does | escalated | `evidence/13-escalate-broken-monitor.txt` |
+| `E1003` | E1003 says the laptop was stolen. | Stolen, though the refresh schedule says eligible; the model does not flag, so the guardrail files the review | escalated | `evidence/07-escalate-stolen.txt` |
+| `broken` | E1002 says the monitor is broken. | Broken, though the refresh schedule says ineligible | escalated | `evidence/13-escalate-broken-monitor.txt` |
 | `lost` | E1004 lost the laptop on a trip. | Lost, though the refresh schedule says ineligible | escalated | `evidence/14-escalate-lost-laptop.txt` |
 | `E1004` | E1004 needs a drawing tablet. | Item not in the policy (undetermined) | escalated | `evidence/08-escalate-tablet.txt` |
 | `pumpkin` | E1005 wants pumpkin spice. | The CEO's request for an item not in the policy | escalated | `evidence/15-escalate-ceo-pumpkin-spice.txt` |
 | `unknown` | E9999 needs a laptop. | Unknown employee: no decision and no review | none | `evidence/16-unknown-employee.txt` |
+| `reflection-fix` | E1002 wants a new laptop because the current one is slow. | Fault injection: the model's draft is flipped to approved, and reflection changes it back | denied | `evidence/17-reflection-corrects-draft.txt` |
 
-The five review records these runs write are in `data/review_queue.json`.
+Every approval, denial, and escalation prints `Draft`, `Reflection`, and `Reflection result`. In eight of the runs without fault injection, reflection confirms the model's draft. In `evidence/07` the model gave no final answer, so reflection reads the filed review and says `escalated`. The unknown-employee run stops before a draft. `reflection-fix` wraps the model in `FlipFirstDraft`, which swaps its first `Final Answer` to the opposite word, so the live reflection has a wrong draft to catch. The trace marks that swap with a `Fault injection` line.
+
+The five review records these runs write are in `data/review_queue.json`. Each reason names the trigger and the eligibility result, then adds the model's own reason as `Model note`.
 
 Ask a custom question with the employee id in the sentence. The trace prints in the terminal and is not saved under `evidence/`. The latency line is model time, tool time, and total time.
 
@@ -83,7 +86,7 @@ python ask.py "E1002 needs a monitor because the current one is broken."
 uvicorn web:app --host 0.0.0.0 --port 8000
 ```
 
-Open `http://localhost:8000`. The five demo sentences are buttons. A text box sends any other sentence. The page streams the same trace, then shows the decision, the latency line, and the review records.
+Open `http://localhost:8000`. The ten recorded sentences are buttons. A text box sends any other sentence. The page streams the same trace, then shows the decision, the latency line, and the review records.
 
 ## 7. Run the tests in CI
 

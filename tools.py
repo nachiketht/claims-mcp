@@ -90,6 +90,12 @@ def flag_for_human_review(
     reason: str,
     queue: ReviewQueue | None = None,
 ) -> dict:
+    if not employee_id.strip():
+        logger.info("blank escalation employee id")
+        return {"error": "empty_employee_id"}
+    if not request.strip():
+        logger.info("blank escalation request")
+        return {"error": "empty_request"}
     if not reason.strip():
         logger.info("blank escalation reason")
         return {"error": "empty_reason"}

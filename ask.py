@@ -20,8 +20,8 @@ def main(argv: list[str] | None = None) -> int:
     try:
         for _event in run(sentence):
             pass
-    except RuntimeError:
-        print("cannot reach the model at host.docker.internal:11434")
+    except RuntimeError as error:
+        print(error)
         return 1
     finally:
         for handler in claim_log.handlers:

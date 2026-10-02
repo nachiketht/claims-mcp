@@ -2,7 +2,7 @@
 
 A request is three fields: an employee id, an item, and a reason. Role, tenure, and equipment come from the employee record. The request does not carry them.
 
-The decision date is `CLAIMS_AS_OF` (YYYY-MM-DD) when it is set, and otherwise the day the project runs. Tests and CI fix it at 2026-10-02 so every expected outcome below is a single value. Tenure and refresh age are counted in whole months against that date.
+The decision date is `CLAIMS_AS_OF` (YYYY-MM-DD) when it is set, and otherwise the day the project runs. Tests and CI fix it at 2026-10-02 so every expected outcome below is a single value. A `CLAIMS_AS_OF` that is not a date raises an error that names the setting. Tenure and refresh age are counted in whole months against that date.
 
 A whole month counts once the same day of the month is reached. From 2023-10-02 to 2026-10-02 is 36 months. From 2023-10-03 to 2026-10-02 is 35 months. From 2026-01-31 to 2026-02-28 is 0 months.
 
@@ -57,18 +57,22 @@ The agent escalates, and does not approve or deny, when any of these is true:
 
 - The request says the item was stolen, lost, or broken.
 - Eligibility returns `undetermined`.
+- The request names more than one item, and eligibility returns `eligible` for one and `ineligible` for another.
 
-The agent calls `check_request_eligibility` before `flag_for_human_review`. A flag before eligibility is sent back to the model and not recorded.
+The agent's first action is `check_request_eligibility`. A flag before eligibility is sent back to the model and not recorded. A flag on a clear eligible or ineligible request is sent back and not recorded. A repeat of the same tool call with the same arguments is sent back and not run again.
 
-Escalation calls `flag_for_human_review` with the employee id, the full request text, and a reason. The reason names what triggered the review and what eligibility returned, for example: "The request reports the laptop as stolen. A stolen device is not a scheduled refresh, so a person decides on the replacement. The refresh-schedule check alone returned eligible." A blank reason returns `{"error": "empty_reason"}` and does not write a review record. A second flag for the same employee and request returns the first record and writes nothing.
+Escalation calls `flag_for_human_review` with the employee id, the full request text, and a reason. The reason names what triggered the review and what eligibility returned, for example: "The request reports the laptop as stolen. A stolen device is not a scheduled refresh, so a person decides on the replacement. The refresh-schedule check alone returned eligible." The model's own reason follows as `Model note: ...`. A blank employee id, request, or reason returns `{"error": "empty_employee_id"}`, `{"error": "empty_request"}`, or `{"error": "empty_reason"}` and does not write a review record. A second flag for the same employee and request returns the first record and writes nothing.
 
 If the model is asked to flag and still does not, the agent records the review itself. The trace marks this with a `guardrail` line.
 
-A clear eligible result is an approval. A clear ineligible result is a denial. An unknown employee is neither: the run ends with an `unknown employee` error, no decision, and no review record. No special request, from any role, skips these rules.
+A clear eligible result is an approval. A clear ineligible result is a denial. An unknown employee is neither: the run ends with an `unknown employee` error, no decision, and no review record. If the model checks an id that is not the one in the request, and the request names an id, the model is told to use the request's id instead. An `unknown_role` from eligibility ends the run with an `unknown role` error and no decision. No special request, from any role, skips these rules.
 
 ## Reflection
 
-Before an approval or a denial is final, the draft and the observations go to a second model call. That prompt states the policy but not the expected word. The reflection replies with `Decision:` and `Why:` lines. The trace shows the draft, the reflection, and whether the reflection confirmed or changed the draft. The decision is final only when the reflected decision matches the policy for the observations. Otherwise the draft is rejected and sent back with the last verdict.
+Before any decision is final, the draft and the observations go to a second model call. That prompt states the policy but not the expected word. The reflection replies with `Decision:` and `Why:` lines. The trace shows the draft, the reflection, and whether the reflection confirmed or changed the draft.
+
+- **Approval or denial.** The decision is final only when the reflected decision matches the policy for the observations. Otherwise the draft is rejected and sent back with the last verdict.
+- **Escalation.** The draft is `escalated` when the model flagged the review itself. When the guardrail filed the review, the draft is the model's last final answer. If reflection says anything other than `escalated`, a `guardrail` line records that the decision stays `escalated`, because the flag is already on file.
 
 ## Demo requests
 

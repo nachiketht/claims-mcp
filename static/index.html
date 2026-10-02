@@ -87,7 +87,12 @@
       "E1002 wants a new laptop because the current one is slow.",
       "E1003 says the laptop was stolen.",
       "E1004 needs a drawing tablet.",
-      "E1005 needs a new laptop because a new one launched."
+      "E1005 needs a new laptop because a new one launched.",
+      "E1005 needs a new monitor.",
+      "E1002 says the monitor is broken.",
+      "E1004 lost the laptop on a trip.",
+      "E1005 wants pumpkin spice.",
+      "E9999 needs a laptop."
     ];
     const requests = document.getElementById("requests");
     const form = document.getElementById("ask");
@@ -144,7 +149,7 @@
         }
         if (buffer.trim()) showEvent(buffer);
       } catch (error) {
-        decision.textContent = "cannot reach the model at host.docker.internal:11434";
+        decision.textContent = "cannot reach the web server";
         decision.className = "error";
       } finally {
         setBusy(false);

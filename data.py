@@ -7,7 +7,12 @@ from enums import Item, Role
 def as_of() -> date:
     """The decision date: CLAIMS_AS_OF (YYYY-MM-DD) when set, otherwise today."""
     fixed = os.environ.get("CLAIMS_AS_OF")
-    return date.fromisoformat(fixed) if fixed else date.today()
+    if not fixed:
+        return date.today()
+    try:
+        return date.fromisoformat(fixed)
+    except ValueError:
+        raise ValueError(f"CLAIMS_AS_OF must be a date like 2026-10-02, not {fixed!r}") from None
 
 
 LAUNCHED = {

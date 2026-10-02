@@ -1,9 +1,11 @@
 import logging
 import os
+import re
 import sys
 from pathlib import Path
 
-from agent import run
+from agent import parse_reply, run
+from llm import ChatModel, OllamaChat
 
 REQUESTS = {
     "E1001": ("E1001 needs a monitor.", "evidence/05-approve-monitor.txt"),
@@ -43,6 +45,10 @@ REQUESTS = {
         "E9999 needs a laptop.",
         "evidence/16-unknown-employee.txt",
     ),
+    "reflection-fix": (
+        "E1002 wants a new laptop because the current one is slow.",
+        "evidence/17-reflection-corrects-draft.txt",
+    ),
 }
 
 
@@ -55,13 +61,37 @@ def main(argv: list[str] | None = None) -> int:
         return 2
     for key in keys:
         sentence, path = REQUESTS[key]
-        if not _run_one(sentence, Path(path)):
-            print("cannot reach the model at host.docker.internal:11434")
+        chat = FlipFirstDraft(OllamaChat()) if key == "reflection-fix" else None
+        error = _run_one(sentence, Path(path), chat)
+        if error:
+            print(error)
             return 1
     return 0
 
 
-def _run_one(sentence: str, path: Path) -> bool:
+class FlipFirstDraft(ChatModel):
+    """Fault injection: the model's first Final Answer is swapped to the opposite word."""
+
+    FLIPS = {"approved": "denied", "denied": "approved"}
+
+    def __init__(self, inner: ChatModel) -> None:
+        self.inner = inner
+        self.flipped = False
+
+    def complete(self, prompt: str) -> str:
+        reply = self.inner.complete(prompt)
+        match = re.search(r"(Final Answer:\s*)(approved|denied)", reply, re.I)
+        if self.flipped or match is None or parse_reply(reply)["kind"] != "final":
+            return reply
+        self.flipped = True
+        wrong = self.FLIPS[match.group(2).lower()]
+        logging.getLogger("claims").info(
+            "Fault injection: the model's draft %s was replaced with %s.", match.group(2), wrong
+        )
+        return reply[: match.start(2)] + wrong + reply[match.end(2) :]
+
+
+def _run_one(sentence: str, path: Path, chat: ChatModel | None = None) -> str | None:
     path.parent.mkdir(parents=True, exist_ok=True)
     model = os.environ.get("OLLAMA_MODEL", "qwen3:8b")
     path.write_text(f"{model}\n")
@@ -78,15 +108,15 @@ def _run_one(sentence: str, path: Path) -> bool:
     claim_log.addHandler(stream)
     claim_log.addHandler(record)
     try:
-        for _event in run(sentence):
+        for _event in run(sentence, chat):
             pass
-    except RuntimeError:
-        return False
+    except RuntimeError as error:
+        return str(error)
     finally:
         for handler in claim_log.handlers:
             handler.close()
         claim_log.handlers.clear()
-    return True
+    return None
 
 
 if __name__ == "__main__":

@@ -115,6 +115,9 @@ def test_bad_json_is_returned_as_the_observation():
     assert chat.prompts[1].endswith("{not json}") or "{not json}" in chat.prompts[1]
 
 
+ESCALATED = "Decision: escalated\nWhy: the review flag is recorded."
+
+
 def _flag_reason(tools: ScriptedTools) -> str:
     return next(args["reason"] for name, args in tools.calls if name == "flag_for_human_review")
 
@@ -129,6 +132,7 @@ def test_the_ceo_pumpkin_spice_request_is_escalated_not_approved():
                 "flag_for_human_review",
                 {"employee_id": "E1005", "request": request, "reason": "not in policy"},
             ),
+            ESCALATED,
         ]
     )
     tools = ScriptedTools(
@@ -151,8 +155,9 @@ def test_stolen_lost_or_broken_is_escalated_with_a_reason_that_names_it(word):
             _tool("check_request_eligibility", {"employee_id": "E1003", "item": "laptop"}),
             _tool(
                 "flag_for_human_review",
-                {"employee_id": "E1003", "request": request, "reason": word},
+                {"employee_id": "E1003", "request": request, "reason": f"the laptop is {word}"},
             ),
+            ESCALATED,
         ]
     )
     tools = ScriptedTools(results={"check_request_eligibility": '{"verdict": "eligible"}'})
@@ -162,6 +167,50 @@ def test_stolen_lost_or_broken_is_escalated_with_a_reason_that_names_it(word):
     assert f"reports the laptop as {word}" in reason
     assert "not a scheduled refresh" in reason
     assert "returned eligible" in reason
+    assert reason.endswith(f"Model note: the laptop is {word}")
+
+
+def test_an_escalation_is_reflected_on_before_it_is_final():
+    """After the model flags a review, reflection runs and confirms escalated."""
+    request = "E1003 says the laptop was stolen."
+    chat = ScriptedChat(
+        [
+            _tool("check_request_eligibility", {"employee_id": "E1003", "item": "laptop"}),
+            _tool(
+                "flag_for_human_review",
+                {"employee_id": "E1003", "request": request, "reason": "stolen"},
+            ),
+            ESCALATED,
+        ]
+    )
+    tools = ScriptedTools(results={"check_request_eligibility": '{"verdict": "eligible"}'})
+    events = list(run(request, chat, tools))
+    assert len(chat.prompts) == 3
+    assert "flag_for_human_review" in chat.prompts[-1] and "Draft:" in chat.prompts[-1]
+    assert {"type": "reflection_result", "text": "confirmed escalated"} in events
+    assert events[-1] == {"type": "decision", "text": "escalated"}
+
+
+def test_a_reflection_that_approves_a_review_case_is_overruled():
+    """A reflection that says approved for a stolen laptop is overruled, and the decision stays escalated."""
+    request = "E1003 says the laptop was stolen."
+    chat = ScriptedChat(
+        [
+            _tool("check_request_eligibility", {"employee_id": "E1003", "item": "laptop"}),
+            _tool(
+                "flag_for_human_review",
+                {"employee_id": "E1003", "request": request, "reason": "stolen"},
+            ),
+            "Decision: approved\nWhy: the refresh window has elapsed.",
+        ]
+    )
+    tools = ScriptedTools(results={"check_request_eligibility": '{"verdict": "eligible"}'})
+    events = list(run(request, chat, tools))
+    assert {"type": "reflection_result", "text": "changed escalated to approved"} in events
+    assert any(
+        event["type"] == "guardrail" and "stays escalated" in event["text"] for event in events
+    )
+    assert events[-1] == {"type": "decision", "text": "escalated"}
 
 
 def test_a_review_flag_before_eligibility_is_sent_back():
@@ -178,6 +227,7 @@ def test_a_review_flag_before_eligibility_is_sent_back():
                 "flag_for_human_review",
                 {"employee_id": "E1003", "request": request, "reason": "stolen"},
             ),
+            ESCALATED,
         ]
     )
     tools = ScriptedTools(results={"check_request_eligibility": '{"verdict": "eligible"}'})
@@ -191,6 +241,26 @@ def test_a_review_flag_before_eligibility_is_sent_back():
         "flag_for_human_review",
     ]
     assert events[-1] == {"type": "decision", "text": "escalated"}
+
+
+def test_the_prompt_names_the_next_step():
+    """The first prompt asks for eligibility first, and a review case then asks for the flag."""
+    request = "E1003 says the laptop was stolen."
+    chat = ScriptedChat(
+        [
+            _tool("check_request_eligibility", {"employee_id": "E1003", "item": "laptop"}),
+            _tool(
+                "flag_for_human_review",
+                {"employee_id": "E1003", "request": request, "reason": "stolen"},
+            ),
+            ESCALATED,
+        ]
+    )
+    tools = ScriptedTools(results={"check_request_eligibility": '{"verdict": "eligible"}'})
+    list(run(request, chat, tools))
+    assert "Your first Action is check_request_eligibility" in chat.prompts[0]
+    assert "Next: call check_request_eligibility" in chat.prompts[0]
+    assert "Next: call flag_for_human_review" in chat.prompts[1]
 
 
 def test_a_repeated_tool_call_is_not_run_again():
@@ -234,6 +304,72 @@ def test_a_review_flag_for_a_clear_request_is_sent_back(tmp_path):
     assert events[-1] == {"type": "decision", "text": "denied"}
 
 
+def test_a_wrong_id_from_the_model_is_sent_back_when_the_request_names_a_real_one():
+    """If the model checks an id that is not the one in the request, it is told to use the request's id."""
+    chat = ScriptedChat(
+        [
+            _tool("check_request_eligibility", {"employee_id": "E1020", "item": "laptop"}),
+            _tool("check_request_eligibility", {"employee_id": "E1002", "item": "laptop"}),
+            "Thought: ineligible\nFinal Answer: denied",
+            "Decision: denied\nWhy: ineligible.",
+        ]
+    )
+
+    class ByEmployee(ScriptedTools):
+        def call_tool(self, name, arguments):
+            self.calls.append((name, arguments))
+            if arguments.get("employee_id") == "E1020":
+                return '{"error": "unknown_employee"}'
+            return '{"verdict": "ineligible"}'
+
+    events = list(run("E1002 wants a new laptop because the current one is slow.", chat, ByEmployee()))
+    assert {
+        "type": "observation",
+        "text": "E1020 is not on file. Use the employee id from the request: E1002.",
+    } in events
+    assert events[-1] == {"type": "decision", "text": "denied"}
+
+
+def test_an_unknown_role_stops_with_no_decision():
+    """An eligibility result of unknown_role ends the run at once with an error."""
+    chat = ScriptedChat(
+        [_tool("check_request_eligibility", {"employee_id": "E4000", "item": "laptop"})]
+    )
+    tools = ScriptedTools(results={"check_request_eligibility": '{"error": "unknown_role"}'})
+    events = list(run("E4000 needs a laptop.", chat, tools))
+    assert events[-1]["type"] == "error" and "unknown role" in events[-1]["text"]
+    assert not any(event["type"] == "decision" for event in events)
+
+
+def test_one_eligible_and_one_ineligible_item_is_escalated():
+    """A request whose items get eligible and ineligible verdicts is escalated, not decided on the last item."""
+    request = "E1002 needs a laptop and a monitor."
+    chat = ScriptedChat(
+        [
+            _tool("check_request_eligibility", {"employee_id": "E1002", "item": "monitor"}),
+            _tool("check_request_eligibility", {"employee_id": "E1002", "item": "laptop"}),
+            _tool(
+                "flag_for_human_review",
+                {"employee_id": "E1002", "request": request, "reason": "mixed"},
+            ),
+            ESCALATED,
+        ]
+    )
+
+    class ByItem(ScriptedTools):
+        def call_tool(self, name, arguments):
+            self.calls.append((name, arguments))
+            if name == "flag_for_human_review":
+                return json.dumps(arguments)
+            verdict = "eligible" if arguments["item"] == "monitor" else "ineligible"
+            return json.dumps({"verdict": verdict})
+
+    tools = ByItem()
+    events = list(run(request, chat, tools))
+    assert events[-1] == {"type": "decision", "text": "escalated"}
+    assert "eligible for one item and ineligible for another (monitor, laptop)" in _flag_reason(tools)
+
+
 def test_an_unknown_employee_stops_with_no_decision_and_no_review(tmp_path):
     """An unknown employee ends the run with an error, no decision, and no review record."""
     path = tmp_path / "review_queue.json"
@@ -260,6 +396,7 @@ def test_a_broken_monitor_is_escalated_when_the_model_does_not_flag():
             _tool("check_request_eligibility", {"employee_id": "E1002", "item": "monitors"}),
             "Thought: deny it\nFinal Answer: denied",
             "Thought: still deny\nAction: check_request_eligibility\nAction Input: {not json}",
+            "Decision: escalated\nWhy: the monitors are broken and a review is recorded.",
         ]
     )
     tools = ScriptedTools(
@@ -268,6 +405,8 @@ def test_a_broken_monitor_is_escalated_when_the_model_does_not_flag():
     events = list(run(request, chat, tools))
     assert events[-1] == {"type": "decision", "text": "escalated"}
     assert any(event["type"] == "guardrail" for event in events)
+    assert {"type": "draft", "text": "denied"} in events
+    assert {"type": "reflection_result", "text": "changed denied to escalated"} in events
     name, arguments = tools.calls[-1]
     assert name == "flag_for_human_review"
     assert arguments["employee_id"] == "E1002"
@@ -585,3 +724,19 @@ def test_unreachable_model_raises_and_writes_no_decision(tmp_path):
             if event["type"] == "decision":
                 path.write_text(event["text"])
     assert not path.exists()
+
+
+def test_a_model_error_from_ollama_is_raised_as_a_runtime_error():
+    """An Ollama error such as a model that is not pulled becomes a RuntimeError naming the model."""
+    import ollama
+
+    from llm import OllamaChat
+
+    class Failing:
+        def chat(self, **_kwargs):
+            raise ollama.ResponseError("model 'qwen3:8b' not found", 404)
+
+    chat = OllamaChat()
+    chat.client = Failing()
+    with pytest.raises(RuntimeError, match="qwen3:8b .* returned an error: model 'qwen3:8b' not found"):
+        chat.complete("hello")

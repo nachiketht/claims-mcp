@@ -27,4 +27,8 @@ class OllamaChat(ChatModel):
                 return response.message.content or ""
             except (httpx.ConnectError, httpx.TimeoutException) as caught:
                 error = caught
+            except ollama.ResponseError as caught:
+                raise RuntimeError(
+                    f"the model {self.model} at {self.host} returned an error: {caught.error}"
+                ) from caught
         raise RuntimeError(f"cannot reach the model {self.model} at {self.host}") from error

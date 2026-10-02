@@ -1,9 +1,9 @@
 qwen3:8b
-Thought: The observation says eligible, so the request should be approved.
+Thought: why this tool
 Action: check_request_eligibility {"employee_id": "E9999", "item": "laptop"}
 E9999 cannot be checked
 Observation: {
   "error": "unknown_employee"
 }
-Latency: model 12.05s, tools 0.26s, total 12.32s
+Latency: model 1.87s, tools 0.29s, total 2.16s
 Error: unknown employee: the id is not on file, so there is no decision and no review record

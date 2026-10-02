@@ -9,8 +9,6 @@ from review_queue import JsonFileQueue
 
 app = FastAPI()
 STATIC = Path(__file__).resolve().parent / "static"
-HOST_ERROR = "cannot reach the model at host.docker.internal:11434"
-
 
 @app.get("/")
 def index() -> FileResponse:
@@ -25,14 +23,17 @@ def reviews() -> list:
 @app.post("/decide")
 async def decide(request: Request) -> StreamingResponse:
     body = await request.json()
-    sentence = str(body.get("request", ""))
+    sentence = str(body.get("request", "")).strip()
 
     def events():
+        if not sentence:
+            yield _sse("error", "empty request")
+            return
         try:
             for event in run(sentence):
                 yield _sse(event["type"], event["text"])
-        except RuntimeError:
-            yield _sse("error", HOST_ERROR)
+        except RuntimeError as error:
+            yield _sse("error", str(error))
 
     return StreamingResponse(events(), media_type="text/event-stream")
 

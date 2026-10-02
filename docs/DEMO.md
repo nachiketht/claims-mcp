@@ -34,7 +34,7 @@ python demo.py E1001
 Extra recorded scenarios (`python demo.py ceo-monitor broken lost pumpkin unknown`):
 
 - E1005 needs a new monitor. Denied: no newer monitor has launched.
-- E1002 says the monitor is broken. Escalated; the guardrail line shows the agent recorded the review when the model did not.
+- E1002 says the monitor is broken. Escalated, even though the schedule says ineligible.
 - E1004 lost the laptop on a trip. Escalated, even though the schedule says ineligible.
 - E1005 wants pumpkin spice. Escalated: not in the policy, even for the CEO.
 - E9999 needs a laptop. No decision and no review record.
@@ -45,4 +45,6 @@ A stolen, lost, or broken device is not a scheduled refresh, so the agent must f
 
 ## 7. Where reflection shows up
 
-Each approval or denial prints `Draft`, `Reflection`, and `Reflection result`. In `evidence/06-deny-laptop.txt` the draft was `ineligible`, which is not a decision, and reflection changed it to `denied`. In `evidence/05`, `09`, and `12` reflection confirms the draft.
+Each approval, denial, and escalation prints `Draft`, `Reflection`, and `Reflection result`. In `evidence/05`, `06`, `08`, `09`, and `12` through `15` reflection confirms the model's draft. In `evidence/07` the model gave no final answer, so the guardrail filed the review and reflection said `escalated`. `python demo.py reflection-fix` flips the model's first draft for E1002's slow laptop to `approved`. In `evidence/17-reflection-corrects-draft.txt` reflection reads `ineligible` in the observations and changes it to `denied`.
+
+If reflection disagrees with the policy, the draft check rejects it. For an approval or a denial the draft goes back to the model. For an escalation the flag is already recorded, so a `guardrail` line says the decision stays `escalated`.
