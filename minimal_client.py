@@ -13,11 +13,13 @@ async def main() -> None:
         command=sys.executable,
         args=[str(ROOT / "minimal_server.py")],
     )
-    async with stdio_client(server) as (read, write):
-        async with ClientSession(read, write) as session:
-            initialized = await session.initialize()
-            tools = await session.list_tools()
-            result = await session.call_tool("ding")
+    async with (
+        stdio_client(server) as (read, write),
+        ClientSession(read, write) as session,
+    ):
+        initialized = await session.initialize()
+        tools = await session.list_tools()
+        result = await session.call_tool("ding")
     print("initialize:", initialized.server_info.name)
     print("tools:", [tool.name for tool in tools.tools])
     print("ding:", result.content[0].text)
