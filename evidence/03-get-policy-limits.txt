@@ -1,0 +1,6 @@
+initialize: claims
+tools: ['get_employee_info', 'get_policy_limits']
+get_policy_limits manager: {
+  "laptop": 24,
+  "monitor": 36
+}

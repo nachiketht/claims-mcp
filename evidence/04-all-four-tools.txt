@@ -1,0 +1,26 @@
+tools: ['get_employee_info', 'get_policy_limits', 'check_request_eligibility', 'flag_for_human_review']
+get_employee_info E1001: {
+  "role": "engineer",
+  "tenure_months": 51,
+  "equipment": [
+    {
+      "item": "laptop",
+      "issued": "2022-08-01"
+    }
+  ]
+}
+get_policy_limits manager: {
+  "laptop": 24,
+  "monitor": 36
+}
+check_request_eligibility E1001 monitor: {
+  "verdict": "eligible"
+}
+check_request_eligibility E1002 laptop: {
+  "verdict": "ineligible"
+}
+flag_for_human_review E1003: {
+  "employee_id": "E1003",
+  "request": "E1003 says the laptop was stolen.",
+  "reason": "theft"
+}
