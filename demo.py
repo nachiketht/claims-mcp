@@ -23,6 +23,26 @@ REQUESTS = {
         "E1005 needs a new laptop because a new one launched.",
         "evidence/09-approve-ceo-laptop.txt",
     ),
+    "ceo-monitor": (
+        "E1005 needs a new monitor.",
+        "evidence/12-deny-ceo-monitor.txt",
+    ),
+    "broken": (
+        "E1002 says the monitor is broken.",
+        "evidence/13-escalate-broken-monitor.txt",
+    ),
+    "lost": (
+        "E1004 lost the laptop on a trip.",
+        "evidence/14-escalate-lost-laptop.txt",
+    ),
+    "pumpkin": (
+        "E1005 wants pumpkin spice.",
+        "evidence/15-escalate-ceo-pumpkin-spice.txt",
+    ),
+    "unknown": (
+        "E9999 needs a laptop.",
+        "evidence/16-unknown-employee.txt",
+    ),
 }
 
 
@@ -31,7 +51,7 @@ def main(argv: list[str] | None = None) -> int:
     keys = chosen or list(REQUESTS)
     unknown = [key for key in keys if key not in REQUESTS]
     if unknown:
-        print("usage: python demo.py [E1001|E1002|E1003|E1004|E1005]")
+        print("usage: python demo.py [" + "|".join(REQUESTS) + "]")
         return 2
     for key in keys:
         sentence, path = REQUESTS[key]

@@ -5,22 +5,21 @@ from fastapi import FastAPI, Request
 from fastapi.responses import FileResponse, StreamingResponse
 
 from agent import run
+from review_queue import JsonFileQueue
 
 app = FastAPI()
-REVIEWS = Path("data/review_queue.json")
+STATIC = Path(__file__).resolve().parent / "static"
 HOST_ERROR = "cannot reach the model at host.docker.internal:11434"
 
 
 @app.get("/")
 def index() -> FileResponse:
-    return FileResponse("static/index.html")
+    return FileResponse(STATIC / "index.html")
 
 
 @app.get("/reviews")
 def reviews() -> list:
-    if not REVIEWS.exists() or REVIEWS.stat().st_size == 0:
-        return []
-    return json.loads(REVIEWS.read_text(encoding="utf-8"))
+    return JsonFileQueue()._read()
 
 
 @app.post("/decide")

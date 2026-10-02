@@ -26,7 +26,7 @@ def get_policy_limits(role: str) -> dict:
 
 @server.tool()
 def check_request_eligibility(employee_id: str, item: str) -> dict:
-    """Return whether an employee may receive a laptop or a monitor."""
+    """Return eligible, ineligible, or undetermined. An item other than a laptop or a monitor is undetermined."""
     return lookup_eligibility(employee_id, item)
 
 

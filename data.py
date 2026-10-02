@@ -1,8 +1,14 @@
+import os
 from datetime import date
 
 from enums import Item, Role
 
-AS_OF = date.today()
+
+def as_of() -> date:
+    """The decision date: CLAIMS_AS_OF (YYYY-MM-DD) when set, otherwise today."""
+    fixed = os.environ.get("CLAIMS_AS_OF")
+    return date.fromisoformat(fixed) if fixed else date.today()
+
 
 LAUNCHED = {
     Item.laptop: date(2026, 3, 1),

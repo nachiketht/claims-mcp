@@ -31,6 +31,18 @@ python demo.py E1001
 - E1004 needs a drawing tablet. Drawing tablet is undetermined.
 - E1005 needs a new laptop because a new one launched. CEO laptop is eligible after a new model launched.
 
+Extra recorded scenarios (`python demo.py ceo-monitor broken lost pumpkin unknown`):
+
+- E1005 needs a new monitor. Denied: no newer monitor has launched.
+- E1002 says the monitor is broken. Escalated; the guardrail line shows the agent recorded the review when the model did not.
+- E1004 lost the laptop on a trip. Escalated, even though the schedule says ineligible.
+- E1005 wants pumpkin spice. Escalated: not in the policy, even for the CEO.
+- E9999 needs a laptop. No decision and no review record.
+
 ## 6. What the system leaves to a person
 
-A stolen, lost, or broken device is not a scheduled refresh, so the agent must flag it. An item the policy table does not list is undetermined, and a person decides.
+A stolen, lost, or broken device is not a scheduled refresh, so the agent must flag it. An item the policy table does not list is undetermined, and a person decides. Every review reason names the trigger and the eligibility result.
+
+## 7. Where reflection shows up
+
+Each approval or denial prints `Draft`, `Reflection`, and `Reflection result`. In `evidence/06-deny-laptop.txt` the draft was `ineligible`, which is not a decision, and reflection changed it to `denied`. In `evidence/05`, `09`, and `12` reflection confirms the draft.

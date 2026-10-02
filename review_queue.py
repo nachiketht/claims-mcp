@@ -3,6 +3,14 @@ import os
 import tempfile
 from pathlib import Path
 
+ROOT = Path(__file__).resolve().parent
+
+
+def default_path() -> Path:
+    """CLAIMS_REVIEW_QUEUE when set, otherwise data/review_queue.json in the repository."""
+    configured = os.environ.get("CLAIMS_REVIEW_QUEUE")
+    return Path(configured) if configured else ROOT / "data" / "review_queue.json"
+
 
 class ReviewQueue:
     def append(self, record: dict) -> dict:
@@ -10,8 +18,8 @@ class ReviewQueue:
 
 
 class JsonFileQueue(ReviewQueue):
-    def __init__(self, path: str | Path = "data/review_queue.json"):
-        self.path = Path(path)
+    def __init__(self, path: str | Path | None = None):
+        self.path = default_path() if path is None else Path(path)
 
     def append(self, record: dict) -> dict:
         records = self._read()
