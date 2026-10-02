@@ -1,0 +1,18 @@
+qwen3:8b
+Thought: The observations support the decision.
+Action: check_request_eligibility {"employee_id": "E1005", "item": "laptop"}
+E1005 laptop is eligible
+Observation: {
+  "verdict": "eligible"
+}
+Thought: The observations support the decision.
+Observation: {"employee_id": "E1005", "item": "laptop"}
+
+Observations:
+check_request_eligibility: {
+  "verdict": "eligible"
+}
+Thought: the observations support the decision
+Reflection: approved
+Draft check: accepted
+Decision: approved

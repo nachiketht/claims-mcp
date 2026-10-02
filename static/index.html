@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Equipment requests</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #1c1917;
+      --muted: #57534e;
+      --line: #e7e5e4;
+      --paper: #fafaf9;
+      --decision: #14532d;
+      --error: #991b1b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font: 16px/1.45 Georgia, "Times New Roman", serif;
+      color: var(--ink);
+      background: var(--paper);
+    }
+    main { max-width: 760px; margin: 0 auto; padding: 32px 20px 64px; }
+    h1 { font-size: 28px; font-weight: 600; margin: 0 0 8px; }
+    p.lead { margin: 0 0 24px; color: var(--muted); }
+    .requests { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+    button, textarea {
+      font: 15px/1.4 ui-sans-serif, system-ui, sans-serif;
+    }
+    button {
+      border: 1px solid var(--line);
+      background: white;
+      color: var(--ink);
+      border-radius: 6px;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+    button:hover { border-color: #a8a29e; }
+    button:disabled { opacity: 0.5; cursor: wait; }
+    form { display: flex; gap: 8px; margin-bottom: 24px; }
+    textarea {
+      flex: 1;
+      min-height: 64px;
+      resize: vertical;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: white;
+    }
+    h2 { font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); margin: 28px 0 8px; }
+    #trace, #reviews {
+      font: 14px/1.45 ui-monospace, monospace;
+      white-space: pre-wrap;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 12px;
+      min-height: 48px;
+    }
+    .decision { color: var(--decision); font-weight: 700; }
+    .error { color: var(--error); font-weight: 700; }
+    .latency { color: #1e3a8a; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Equipment requests</h1>
+    <p class="lead">Look up the employee and the refresh rule, then approve, deny, or hand the case to a person.</p>
+    <div class="requests" id="requests"></div>
+    <form id="ask">
+      <textarea id="sentence" placeholder="E1002 needs a monitor."></textarea>
+      <button type="submit">Ask</button>
+    </form>
+    <h2>Trace</h2>
+    <div id="trace">Waiting for a request.</div>
+    <h2>Decision</h2>
+    <div id="decision">No decision yet.</div>
+    <h2>Latency</h2>
+    <div id="latency">No timing yet.</div>
+    <h2>Review records</h2>
+    <div id="reviews">No review records.</div>
+  </main>
+  <script>
+    const sentences = [
+      "E1001 needs a monitor.",
+      "E1002 wants a new laptop because the current one is slow.",
+      "E1003 says the laptop was stolen.",
+      "E1004 needs a drawing tablet.",
+      "E1005 needs a new laptop because a new one launched."
+    ];
+    const requests = document.getElementById("requests");
+    const form = document.getElementById("ask");
+    const sentence = document.getElementById("sentence");
+    const trace = document.getElementById("trace");
+    const decision = document.getElementById("decision");
+    const latency = document.getElementById("latency");
+    const reviews = document.getElementById("reviews");
+    let running = false;
+
+    sentences.forEach((text) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = text;
+      button.addEventListener("click", () => submit(text));
+      requests.appendChild(button);
+    });
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      submit(sentence.value.trim());
+    });
+
+    function setBusy(busy) {
+      running = busy;
+      document.querySelectorAll("button").forEach((button) => {
+        button.disabled = busy;
+      });
+    }
+
+    async function submit(text) {
+      if (!text || running) return;
+      setBusy(true);
+      trace.textContent = "";
+      decision.textContent = "Running.";
+      decision.className = "";
+      latency.textContent = "Running.";
+      try {
+        const response = await fetch("/decide", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ request: text })
+        });
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = "";
+        while (true) {
+          const chunk = await reader.read();
+          if (chunk.done) break;
+          buffer += decoder.decode(chunk.value, { stream: true });
+          const parts = buffer.split("\n\n");
+          buffer = parts.pop();
+          parts.forEach(showEvent);
+        }
+        if (buffer.trim()) showEvent(buffer);
+      } catch (error) {
+        decision.textContent = "cannot reach the model at host.docker.internal:11434";
+        decision.className = "error";
+      } finally {
+        setBusy(false);
+        loadReviews();
+      }
+    }
+
+    function showEvent(block) {
+      let kind = "message";
+      const lines = [];
+      block.split("\n").forEach((line) => {
+        if (line.startsWith("event:")) kind = line.slice(6).trim();
+        if (line.startsWith("data:")) lines.push(line.slice(5).trim());
+      });
+      if (!lines.length) return;
+      const text = JSON.parse(lines.join("\n"));
+      const row = document.createElement("div");
+      row.textContent = kind + ": " + text;
+      if (kind === "decision") {
+        decision.textContent = text;
+        decision.className = "decision";
+      } else if (kind === "error") {
+        decision.textContent = text;
+        decision.className = "error";
+        row.className = "error";
+      } else if (kind === "latency") {
+        latency.textContent = text;
+        row.className = "latency";
+      }
+      trace.appendChild(row);
+    }
+
+    async function loadReviews() {
+      const response = await fetch("/reviews");
+      const records = await response.json();
+      reviews.textContent = records.length ? JSON.stringify(records, null, 2) : "No review records.";
+    }
+
+    loadReviews();
+  </script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0 -- /root/claims-mcp/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /root/claims-mcp
+plugins: anyio-4.15.1
+collecting ... collected 40 items
+
+test_agent.py::test_parser_reads_thought_action_and_input PASSED         [  2%]
+test_agent.py::test_parser_reads_a_final_answer PASSED                   [  5%]
+test_agent.py::test_parser_rejects_text_with_no_labels PASSED            [  7%]
+test_agent.py::test_parser_rejects_an_unknown_tool_name PASSED           [ 10%]
+test_agent.py::test_parser_reads_json_inside_a_code_fence PASSED         [ 12%]
+test_agent.py::test_bad_json_is_returned_as_the_observation PASSED       [ 15%]
+test_agent.py::test_a_finished_run_reports_model_time_tool_time_and_total_time PASSED [ 17%]
+test_agent.py::test_loop_stops_when_a_tool_name_is_missing PASSED        [ 20%]
+test_agent.py::test_loop_calls_the_tool_the_model_names_and_stops_on_a_final_answer PASSED [ 22%]
+test_agent.py::test_bad_format_is_sent_back_and_counts_as_a_step PASSED  [ 25%]
+test_agent.py::test_loop_stops_at_eight_steps_when_there_is_no_final_answer PASSED [ 27%]
+test_agent.py::test_reflection_is_a_second_model_call_and_its_text_is_what_the_draft_check_reads PASSED [ 30%]
+test_agent.py::test_eligible_monitor_request_does_not_write_a_review PASSED [ 32%]
+test_agent.py::test_approved_draft_for_a_stolen_laptop_is_sent_back PASSED [ 35%]
+test_agent.py::test_stolen_laptop_finishes_only_after_a_review_record PASSED [ 37%]
+test_agent.py::test_unreachable_model_raises_and_writes_no_decision PASSED [ 40%]
+test_catalog.py::test_known_employee_returns_the_record PASSED           [ 42%]
+test_catalog.py::test_unknown_employee_returns_nothing PASSED            [ 45%]
+test_catalog.py::test_known_role_returns_the_intervals PASSED            [ 47%]
+test_catalog.py::test_unknown_role_returns_nothing PASSED                [ 50%]
+test_catalog.py::test_catalog_rejects_an_employee_with_no_start_date PASSED [ 52%]
+test_catalog.py::test_catalog_rejects_a_non_positive_interval PASSED     [ 55%]
+test_queue.py::test_append_writes_the_review_record PASSED               [ 57%]
+test_queue.py::test_second_append_keeps_the_first_record PASSED          [ 60%]
+test_tools.py::test_employee_info_includes_role_tenure_and_equipment PASSED [ 62%]
+test_tools.py::test_missing_employee_returns_unknown_employee PASSED     [ 65%]
+test_tools.py::test_engineer_refresh_is_36_months PASSED                 [ 67%]
+test_tools.py::test_manager_laptop_refresh_is_24_months PASSED           [ 70%]
+test_tools.py::test_ceo_refresh_is_12_months PASSED                      [ 72%]
+test_tools.py::test_unknown_role_returns_unknown_role PASSED             [ 75%]
+test_tools.py::test_missing_employee_cannot_be_checked_for_eligibility PASSED [ 77%]
+test_tools.py::test_drawing_tablet_is_undetermined PASSED                [ 80%]
+test_tools.py::test_first_monitor_is_eligible PASSED                     [ 82%]
+test_tools.py::test_laptop_older_than_36_months_is_eligible PASSED       [ 85%]
+test_tools.py::test_manager_laptop_from_june_2025_is_ineligible PASSED   [ 87%]
+test_tools.py::test_ceo_laptop_is_eligible_after_a_new_model_launched PASSED [ 90%]
+test_tools.py::test_ceo_monitor_is_ineligible_when_no_newer_model_has_launched PASSED [ 92%]
+test_tools.py::test_review_flag_appends_the_request PASSED               [ 95%]
+test_tools.py::test_blank_escalation_reason_does_not_write PASSED        [ 97%]
+test_tools.py::test_second_flag_for_the_same_request_leaves_one_record PASSED [100%]
+
+============================== 40 passed in 0.29s ==============================
