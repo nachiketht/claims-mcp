@@ -2,7 +2,7 @@
 
 A request is three fields: an employee id, an item, and a reason. Role, tenure, and equipment come from the employee record. The request does not carry them.
 
-The decision date is fixed at 2026-09-30. Tenure and refresh age are counted in whole months against that date.
+The decision date is the day the project runs. Tenure and refresh age are counted in whole months against that date.
 
 ## Roles
 
@@ -61,9 +61,9 @@ A clear eligible result is an approval. A clear ineligible result is a denial. A
 | Request | Expected outcome |
 | --- | --- |
 | E1001 needs a monitor. | Approve. No monitor is on file, so the request is eligible. |
-| E1002 wants a new laptop because the current one is slow. | Deny. The laptop was issued 2025-06-15, inside the manager's 24-month interval. |
+| E1002 wants a new laptop because the current one is slow. | Deny while the laptop issued on 2025-06-15 is inside the manager's 24-month interval. |
 | E1003 says the laptop was stolen. | Escalate. The refresh window has elapsed, but theft is not a scheduled refresh. |
 | E1004 needs a drawing tablet. | Escalate. A drawing tablet is not in the policy. |
-| E1005 needs a new laptop because a new one launched. | Approve. The laptop was issued 2025-01-10, 20 months before 2026-09-30, and the current laptop launched on 2026-03-01. |
+| E1005 needs a new laptop because a new one launched. | Approve while the run date is at least 12 months after 2025-01-10. The current laptop launched on 2026-03-01, after that issue date. |
 
-A monitor request for E1005 is ineligible. Thirteen months have passed, but the current monitor launched on 2025-06-01, before the monitor on file. That case is not a sixth demo.
+A monitor request for E1005 is ineligible. The current monitor launched on 2025-06-01, before the monitor on file. That case is not a sixth demo.

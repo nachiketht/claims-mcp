@@ -2,7 +2,7 @@ from datetime import date
 
 from enums import Item, Role
 
-AS_OF = date(2026, 9, 30)
+AS_OF = date.today()
 
 LAUNCHED = {
     Item.laptop: date(2026, 3, 1),

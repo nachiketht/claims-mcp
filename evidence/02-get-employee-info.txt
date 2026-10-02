@@ -1,0 +1,12 @@
+initialize: claims
+tools: ['get_employee_info']
+get_employee_info E1001: {
+  "role": "engineer",
+  "tenure_months": 51,
+  "equipment": [
+    {
+      "item": "laptop",
+      "issued": "2022-08-01"
+    }
+  ]
+}
