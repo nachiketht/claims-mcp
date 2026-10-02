@@ -16,8 +16,8 @@ Observation: {
 }
 Draft: escalated
 Reflection: Decision: escalated  
-Why: The request mentions the laptop was stolen, and according to observations, the verdict is eligible, but the policy requires escalation when the request says stolen, lost, or broken, and only after flag_for_human_review has returned a record.
+Why: The request mentions the laptop was stolen, triggering an escalation as per policy.
 Reflection result: confirmed escalated
 Draft check: accepted
-Latency: model 9.03s, tools 0.33s, total 9.36s
+Latency: model 8.06s, tools 0.25s, total 8.31s
 Decision: escalated

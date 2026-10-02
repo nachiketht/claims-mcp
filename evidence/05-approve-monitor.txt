@@ -5,11 +5,11 @@ E1001 monitor is eligible
 Observation: {
   "verdict": "eligible"
 }
-Thought: The request is for a monitor, and check_request_eligibility has determined it is eligible.
+Thought: The request is for a monitor, and the check_request_eligibility tool returned "eligible," so the request is approved.
 Draft: approved
 Reflection: Decision: approved  
-Why: check_request_eligibility returned "eligible" verdict.
+Why: check_request_eligibility returned "eligible", so the request is approved.
 Reflection result: confirmed approved
 Draft check: accepted
-Latency: model 4.92s, tools 0.25s, total 5.17s
+Latency: model 7.87s, tools 0.25s, total 8.12s
 Decision: approved
