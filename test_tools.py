@@ -3,6 +3,7 @@ from datetime import date
 import pytest
 
 from catalog import MemoryCatalog
+from data import as_of
 from enums import Item, Role
 from review_queue import JsonFileQueue
 from tools import (
@@ -236,6 +237,12 @@ def test_blank_employee_id_or_request_does_not_write(tmp_path):
     }
     assert flag_for_human_review("E1003", "", "theft", queue) == {"error": "empty_request"}
     assert not path.exists()
+
+
+def test_the_decision_date_is_today_by_default(monkeypatch):
+    """With no override, the decision date is the day the program runs."""
+    monkeypatch.delenv("CLAIMS_AS_OF", raising=False)
+    assert as_of() == date.today()
 
 
 def test_a_bad_decision_date_names_the_setting(monkeypatch):

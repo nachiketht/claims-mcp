@@ -362,17 +362,18 @@ def _ask(request: str, listed: list, observations: list[tuple[str, str]]) -> str
         "Call flag_for_human_review when the verdict is undetermined, when one item is eligible and another"
         " is ineligible, or when the request says stolen, lost, or broken.",
         "A tool call uses exactly these labels:",
-        "Thought: why this tool",
+        "Thought: <your own reason for calling this tool, in one sentence>",
         "Action: tool_name",
         "Action Input: {\"argument\": \"value\"}",
         "A decision uses exactly these labels, and no Action line:",
-        "Thought: the observations support the decision",
+        "Thought: <your own reason, citing the observation it comes from>",
         "Final Answer: approved",
         "Use denied when the observation says ineligible.",
         "Use escalated after flag_for_human_review.",
         "Call check_request_eligibility before flag_for_human_review and before the final answer.",
         "After flag_for_human_review returns, reply with Final Answer: escalated and do not call that tool again.",
         "Approve, deny, and escalate are not tool names.",
+        "Replace each <...> with your own words. Do not copy the placeholder text.",
     ]
     if observations:
         lines.append("Observations:")

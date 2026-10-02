@@ -1,6 +1,6 @@
 # claims-mcp
 
-An MCP server and ReAct agent for equipment requests. The server looks up an employee and that role's refresh intervals. The agent approves, denies, or escalates each request, and reflects on its draft before the decision is final. The decision date is `CLAIMS_AS_OF` (YYYY-MM-DD) when it is set, otherwise the day you run it.
+An MCP server and ReAct agent for equipment requests. The server looks up an employee and that role's refresh intervals. The agent approves, denies, or escalates each request, and reflects on its draft before the decision is final. Every decision uses the day you run it. The unit tests pass a fixed date to the tools so their expected results do not change as the calendar moves.
 
 Run these commands from the repository root.
 
@@ -48,13 +48,12 @@ Ollama must be running on the host at `0.0.0.0:11434` with `qwen3:8b` pulled. Fr
 
 ```bash
 export OLLAMA_HOST=http://host.docker.internal:11434
-export CLAIMS_AS_OF=2026-10-02
 python demo.py
 ```
 
 `python demo.py E1001` runs one request. Each transcript is written under `evidence/`. If the model cannot be reached, the command prints `cannot reach the model qwen3:8b at http://host.docker.internal:11434` and writes no approval. A model error (such as a model that is not pulled) or an MCP server that does not start or stops answering is printed the same way.
 
-These are the recorded runs with `qwen3:8b` on 2026-10-02:
+These are the recorded runs with `qwen3:8b`. The first line of each transcript names the model and the decision date, which was the day it ran (2026-10-02). A later run can differ where a refresh window has since elapsed: E1002's laptop, for example, becomes eligible on 2027-06-15.
 
 | Key | Request | Scenario | Decision | Transcript |
 | --- | --- | --- | --- | --- |
@@ -62,7 +61,7 @@ These are the recorded runs with `qwen3:8b` on 2026-10-02:
 | `E1005` | E1005 needs a new laptop because a new one launched. | CEO: 12 months passed and a newer model launched | approved | `evidence/09-approve-ceo-laptop.txt` |
 | `E1002` | E1002 wants a new laptop because the current one is slow. | Inside the manager's 24-month interval | denied | `evidence/06-deny-laptop.txt` |
 | `ceo-monitor` | E1005 needs a new monitor. | CEO: no newer monitor has launched | denied | `evidence/12-deny-ceo-monitor.txt` |
-| `E1003` | E1003 says the laptop was stolen. | Stolen, though the refresh schedule says eligible; the model does not flag, so the guardrail files the review | escalated | `evidence/07-escalate-stolen.txt` |
+| `E1003` | E1003 says the laptop was stolen. | Stolen, though the refresh schedule says eligible; the model flags it, and a guardrail line notes the review reason was rebuilt from the observations | escalated | `evidence/07-escalate-stolen.txt` |
 | `broken` | E1002 says the monitor is broken. | Broken, though the refresh schedule says ineligible | escalated | `evidence/13-escalate-broken-monitor.txt` |
 | `lost` | E1004 lost the laptop on a trip. | Lost, though the refresh schedule says ineligible | escalated | `evidence/14-escalate-lost-laptop.txt` |
 | `E1004` | E1004 needs a drawing tablet. | Item not in the policy (undetermined) | escalated | `evidence/08-escalate-tablet.txt` |
@@ -90,4 +89,4 @@ Open `http://localhost:8000`. The ten recorded sentences are buttons. A text box
 
 ## 7. Run the tests in CI
 
-`.github/workflows/ci.yml` runs `pytest -v` on Python 3.12 for every push to `main` and every pull request, with `CLAIMS_AS_OF=2026-10-02`. Actions does not call Ollama. `test_server.py` starts `server.py` over stdio and calls all four tools. The local passing list is `evidence/10-pytest.txt`.
+`.github/workflows/ci.yml` runs `pytest -v` on Python 3.12 for every push to `main` and every pull request. Actions does not call Ollama. `test_server.py` starts `server.py` over stdio and calls all four tools. The local passing list is `evidence/10-pytest.txt`.

@@ -2,7 +2,7 @@
 
 A request is three fields: an employee id, an item, and a reason. Role, tenure, and equipment come from the employee record. The request does not carry them.
 
-The decision date is `CLAIMS_AS_OF` (YYYY-MM-DD) when it is set, and otherwise the day the project runs. Tests and CI fix it at 2026-10-02 so every expected outcome below is a single value. A `CLAIMS_AS_OF` that is not a date raises an error that names the setting. Tenure and refresh age are counted in whole months against that date.
+The decision date is the day the program runs. Tenure and refresh age are counted in whole months against that date. The unit tests pass a fixed date (2026-10-02) to the tools so each expected result is a single value that does not drift. The server test pins the same date through the `CLAIMS_AS_OF` environment variable (YYYY-MM-DD), which exists for tests. A `CLAIMS_AS_OF` that is not a date raises an error that names the setting.
 
 A whole month counts once the same day of the month is reached. From 2023-10-02 to 2026-10-02 is 36 months. From 2023-10-03 to 2026-10-02 is 35 months. From 2026-01-31 to 2026-02-28 is 0 months.
 
@@ -75,6 +75,8 @@ Before any decision is final, the draft and the observations go to a second mode
 - **Escalation.** The draft is `escalated` when the model flagged the review itself. When the guardrail filed the review, the draft is the model's last final answer. If reflection says anything other than `escalated`, a `guardrail` line records that the decision stays `escalated`, because the flag is already on file.
 
 ## Demo requests
+
+The outcomes below are for a run on 2026-10-02. On a later day an outcome changes once a refresh window elapses: E1002's laptop becomes eligible on 2027-06-15.
 
 | Request | Expected outcome |
 | --- | --- |

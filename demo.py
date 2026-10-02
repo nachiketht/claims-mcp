@@ -5,6 +5,7 @@ import sys
 from pathlib import Path
 
 from agent import parse_reply, run
+from data import as_of
 from llm import ChatModel, OllamaChat
 
 REQUESTS = {
@@ -94,7 +95,7 @@ class FlipFirstDraft(ChatModel):
 def _run_one(sentence: str, path: Path, chat: ChatModel | None = None) -> str | None:
     path.parent.mkdir(parents=True, exist_ok=True)
     model = os.environ.get("OLLAMA_MODEL", "qwen3:8b")
-    path.write_text(f"{model}\n")
+    path.write_text(f"{model}, decision date {as_of().isoformat()}\n")
     os.environ["CLAIMS_LOG"] = str(path.resolve())
     claim_log = logging.getLogger("claims")
     claim_log.setLevel(logging.INFO)

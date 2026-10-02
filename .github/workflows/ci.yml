@@ -8,8 +8,6 @@ on:
 jobs:
   pytest:
     runs-on: ubuntu-latest
-    env:
-      CLAIMS_AS_OF: "2026-10-02"
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6

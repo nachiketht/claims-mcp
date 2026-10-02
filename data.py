@@ -5,7 +5,7 @@ from enums import Item, Role
 
 
 def as_of() -> date:
-    """The decision date: CLAIMS_AS_OF (YYYY-MM-DD) when set, otherwise today."""
+    """The decision date: today. CLAIMS_AS_OF (YYYY-MM-DD) overrides it for tests."""
     fixed = os.environ.get("CLAIMS_AS_OF")
     if not fixed:
         return date.today()

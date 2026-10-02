@@ -45,6 +45,6 @@ A stolen, lost, or broken device is not a scheduled refresh, so the agent must f
 
 ## 7. Where reflection shows up
 
-Each approval, denial, and escalation prints `Draft`, `Reflection`, and `Reflection result`. In `evidence/05`, `06`, `08`, `09`, and `12` through `15` reflection confirms the model's draft. In `evidence/07` the model gave no final answer, so the guardrail filed the review and reflection said `escalated`. `python demo.py reflection-fix` flips the model's first draft for E1002's slow laptop to `approved`. In `evidence/17-reflection-corrects-draft.txt` reflection reads `ineligible` in the observations and changes it to `denied`.
+Each approval, denial, and escalation prints `Draft`, `Reflection`, and `Reflection result`. In `evidence/05` through `09` and `12` through `15` reflection confirms the model's draft. `python demo.py reflection-fix` flips the model's first draft for E1002's slow laptop to `approved`. In `evidence/17-reflection-corrects-draft.txt` reflection reads `ineligible` in the observations and changes it to `denied`.
 
 If reflection disagrees with the policy, the draft check rejects it. For an approval or a denial the draft goes back to the model. For an escalation the flag is already recorded, so a `guardrail` line says the decision stays `escalated`.
