@@ -1,0 +1,296 @@
+pytest	Set up job	﻿2026-10-02T18:43:37.2053650Z Current runner version: '2.337.0'
+pytest	Set up job	2026-10-02T18:43:37.2080551Z ##[group]Runner Image Provisioner
+pytest	Set up job	2026-10-02T18:43:37.2081374Z Hosted Compute Agent
+pytest	Set up job	2026-10-02T18:43:37.2081899Z Version: 20260901.588
+pytest	Set up job	2026-10-02T18:43:37.2082560Z Commit: f88ec8081b781fac6c440065ac7ff9e710ce3d0b
+pytest	Set up job	2026-10-02T18:43:37.2083261Z Build Date: 2026-09-01T19:56:44Z
+pytest	Set up job	2026-10-02T18:43:37.2083939Z Worker ID: {7c0b3fd8-78e4-472f-9c87-6853ea148ee7}
+pytest	Set up job	2026-10-02T18:43:37.2084755Z Azure Region: eastus
+pytest	Set up job	2026-10-02T18:43:37.2085263Z ##[endgroup]
+pytest	Set up job	2026-10-02T18:43:37.2086586Z ##[group]Operating System
+pytest	Set up job	2026-10-02T18:43:37.2087151Z Ubuntu
+pytest	Set up job	2026-10-02T18:43:37.2087675Z 24.04.5
+pytest	Set up job	2026-10-02T18:43:37.2088192Z LTS
+pytest	Set up job	2026-10-02T18:43:37.2088662Z ##[endgroup]
+pytest	Set up job	2026-10-02T18:43:37.2089206Z ##[group]Runner Image
+pytest	Set up job	2026-10-02T18:43:37.2089868Z Image: ubuntu-24.04
+pytest	Set up job	2026-10-02T18:43:37.2090424Z Version: 20260927.320.1
+pytest	Set up job	2026-10-02T18:43:37.2091442Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260927.320/images/ubuntu/Ubuntu2404-Readme.md
+pytest	Set up job	2026-10-02T18:43:37.2093099Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260927.320
+pytest	Set up job	2026-10-02T18:43:37.2094032Z ##[endgroup]
+pytest	Set up job	2026-10-02T18:43:37.2095241Z ##[group]GITHUB_TOKEN Permissions
+pytest	Set up job	2026-10-02T18:43:37.2097033Z Contents: read
+pytest	Set up job	2026-10-02T18:43:37.2097681Z Metadata: read
+pytest	Set up job	2026-10-02T18:43:37.2098221Z Packages: read
+pytest	Set up job	2026-10-02T18:43:37.2099149Z ##[endgroup]
+pytest	Set up job	2026-10-02T18:43:37.2101445Z Secret source: Actions
+pytest	Set up job	2026-10-02T18:43:37.2102388Z Cache mode: write
+pytest	Set up job	2026-10-02T18:43:37.2103204Z Prepare workflow directory
+pytest	Set up job	2026-10-02T18:43:37.2393623Z Prepare all required actions
+pytest	Set up job	2026-10-02T18:43:37.2437154Z Getting action download info
+pytest	Set up job	2026-10-02T18:43:37.4862837Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+pytest	Set up job	2026-10-02T18:43:37.6092317Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+pytest	Set up job	2026-10-02T18:43:37.8041410Z Complete job name: pytest
+pytest	Run actions/checkout@v4	﻿2026-10-02T18:43:37.8686364Z ##[group]Run actions/checkout@v4
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.8687138Z with:
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.8687538Z   repository: nachiketht/claims-mcp
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.8690855Z   token: ***
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.8691236Z   ssh-strict: true
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.8691623Z   ssh-user: git
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.8692008Z   persist-credentials: true
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.8692434Z   clean: true
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.8692820Z   sparse-checkout-cone-mode: true
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.8693265Z   fetch-depth: 1
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.8693635Z   fetch-tags: false
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.8694019Z   show-progress: true
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.8694404Z   lfs: false
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.8694899Z   submodules: false
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.8695295Z   set-safe-directory: true
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.8695726Z   allow-unsafe-pr-checkout: false
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.8696327Z ##[endgroup]
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.9593224Z Syncing repository: nachiketht/claims-mcp
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.9595689Z ##[group]Getting Git version info
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.9596665Z Working directory is '/home/runner/work/claims-mcp/claims-mcp'
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.9598150Z [command]/usr/bin/git version
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.9638904Z git version 2.55.0
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.9655980Z ##[endgroup]
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.9668569Z Temporarily overriding HOME='/home/runner/work/_temp/18e4d6cb-f552-4bb3-84fa-80b550f96577' before making global git config changes
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.9670610Z Adding repository directory to the temporary git global config as a safe directory
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.9673075Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/claims-mcp/claims-mcp
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.9719168Z Deleting the contents of '/home/runner/work/claims-mcp/claims-mcp'
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.9722915Z ##[group]Initializing the repository
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.9726610Z [command]/usr/bin/git init /home/runner/work/claims-mcp/claims-mcp
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.9799920Z hint: Using 'master' as the name for the initial branch. This default branch name
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.9801020Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.9802177Z hint: to use in all of your new repositories, which will suppress this warning,
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.9802808Z hint: call:
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.9803178Z hint:
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.9803631Z hint: 	git config --global init.defaultBranch <name>
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.9804188Z hint:
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.9804894Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.9805702Z hint: 'development'. The just-created branch can be renamed via this command:
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.9806340Z hint:
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.9806714Z hint: 	git branch -m <name>
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.9807141Z hint:
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.9807698Z hint: Disable this message with "git config set advice.defaultBranchName false"
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.9812639Z Initialized empty Git repository in /home/runner/work/claims-mcp/claims-mcp/.git/
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.9821018Z [command]/usr/bin/git remote add origin https://github.com/nachiketht/claims-mcp
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.9866917Z ##[endgroup]
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.9868013Z ##[group]Disabling automatic garbage collection
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.9870219Z [command]/usr/bin/git config --local gc.auto 0
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.9899373Z ##[endgroup]
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.9900409Z ##[group]Setting up auth
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.9904417Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+pytest	Run actions/checkout@v4	2026-10-02T18:43:37.9933479Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+pytest	Run actions/checkout@v4	2026-10-02T18:43:38.0250319Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+pytest	Run actions/checkout@v4	2026-10-02T18:43:38.0286870Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+pytest	Run actions/checkout@v4	2026-10-02T18:43:38.0509216Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+pytest	Run actions/checkout@v4	2026-10-02T18:43:38.0543256Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+pytest	Run actions/checkout@v4	2026-10-02T18:43:38.0750746Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+pytest	Run actions/checkout@v4	2026-10-02T18:43:38.0787951Z ##[endgroup]
+pytest	Run actions/checkout@v4	2026-10-02T18:43:38.0788771Z ##[group]Fetching the repository
+pytest	Run actions/checkout@v4	2026-10-02T18:43:38.0795993Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +914100be34aa85018d566d162ecaff15fb568683:refs/remotes/origin/main
+pytest	Run actions/checkout@v4	2026-10-02T18:43:38.3146817Z From https://github.com/nachiketht/claims-mcp
+pytest	Run actions/checkout@v4	2026-10-02T18:43:38.3148349Z  * [new ref]         914100be34aa85018d566d162ecaff15fb568683 -> origin/main
+pytest	Run actions/checkout@v4	2026-10-02T18:43:38.3151313Z ##[endgroup]
+pytest	Run actions/checkout@v4	2026-10-02T18:43:38.3152481Z ##[group]Determining the checkout info
+pytest	Run actions/checkout@v4	2026-10-02T18:43:38.3154008Z ##[endgroup]
+pytest	Run actions/checkout@v4	2026-10-02T18:43:38.3160059Z [command]/usr/bin/git sparse-checkout disable
+pytest	Run actions/checkout@v4	2026-10-02T18:43:38.3210710Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+pytest	Run actions/checkout@v4	2026-10-02T18:43:38.3242700Z ##[group]Checking out the ref
+pytest	Run actions/checkout@v4	2026-10-02T18:43:38.3246664Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+pytest	Run actions/checkout@v4	2026-10-02T18:43:38.3364314Z Switched to a new branch 'main'
+pytest	Run actions/checkout@v4	2026-10-02T18:43:38.3369545Z branch 'main' set up to track 'origin/main'.
+pytest	Run actions/checkout@v4	2026-10-02T18:43:38.3375189Z ##[endgroup]
+pytest	Run actions/checkout@v4	2026-10-02T18:43:38.3416789Z [command]/usr/bin/git log -1 --format=%H
+pytest	Run actions/checkout@v4	2026-10-02T18:43:38.3442401Z 914100be34aa85018d566d162ecaff15fb568683
+pytest	Run actions/setup-python@v5	﻿2026-10-02T18:43:38.3711858Z ##[group]Run actions/setup-python@v5
+pytest	Run actions/setup-python@v5	2026-10-02T18:43:38.3712466Z with:
+pytest	Run actions/setup-python@v5	2026-10-02T18:43:38.3712883Z   python-version: 3.12
+pytest	Run actions/setup-python@v5	2026-10-02T18:43:38.3713337Z   check-latest: false
+pytest	Run actions/setup-python@v5	2026-10-02T18:43:38.3717166Z   token: ***
+pytest	Run actions/setup-python@v5	2026-10-02T18:43:38.3717618Z   update-environment: true
+pytest	Run actions/setup-python@v5	2026-10-02T18:43:38.3718118Z   allow-prereleases: false
+pytest	Run actions/setup-python@v5	2026-10-02T18:43:38.3718611Z   freethreaded: false
+pytest	Run actions/setup-python@v5	2026-10-02T18:43:38.3719253Z ##[endgroup]
+pytest	Run actions/setup-python@v5	2026-10-02T18:43:38.4910437Z ##[group]Installed versions
+pytest	Run actions/setup-python@v5	2026-10-02T18:43:38.4993604Z (node:2078) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+pytest	Run actions/setup-python@v5	2026-10-02T18:43:38.4995747Z (Use `node --trace-deprecation ...` to show where the warning was created)
+pytest	Run actions/setup-python@v5	2026-10-02T18:43:38.4996906Z Successfully set up CPython (3.12.14)
+pytest	Run actions/setup-python@v5	2026-10-02T18:43:38.4998251Z ##[endgroup]
+pytest	Run pip install -r requirements.txt	﻿2026-10-02T18:43:38.5161381Z ##[group]Run pip install -r requirements.txt
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:38.5162184Z [36;1mpip install -r requirements.txt[0m
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:38.5428462Z shell: /usr/bin/bash -e {0}
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:38.5429107Z env:
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:38.5429624Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:38.5430411Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:38.5431189Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:38.5431878Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:38.5432594Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:38.5433278Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:38.5433876Z ##[endgroup]
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.3584299Z Collecting mcp==2.2.0 (from -r requirements.txt (line 1))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.4081363Z   Downloading mcp-2.2.0-py3-none-any.whl.metadata (7.8 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.4215750Z Collecting ollama==0.6.3 (from -r requirements.txt (line 2))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.4356919Z   Downloading ollama-0.6.3-py3-none-any.whl.metadata (7.6 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.4604053Z Collecting pytest==9.1.1 (from -r requirements.txt (line 3))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.4643835Z   Downloading pytest-9.1.1-py3-none-any.whl.metadata (7.6 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.4956974Z Collecting fastapi==0.142.2 (from -r requirements.txt (line 4))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.4999631Z   Downloading fastapi-0.142.2-py3-none-any.whl.metadata (27 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.5253143Z Collecting uvicorn==0.54.0 (from -r requirements.txt (line 5))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.5293693Z   Downloading uvicorn-0.54.0-py3-none-any.whl.metadata (6.6 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.5587070Z Collecting anyio>=4.9 (from mcp==2.2.0->-r requirements.txt (line 1))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.5628032Z   Downloading anyio-4.15.1-py3-none-any.whl.metadata (4.7 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.5810582Z Collecting httpx2>=2.5.0 (from mcp==2.2.0->-r requirements.txt (line 1))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.5849068Z   Downloading httpx2-2.13.1-py3-none-any.whl.metadata (9.8 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.6026873Z Collecting jsonschema>=4.20.0 (from mcp==2.2.0->-r requirements.txt (line 1))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.6063849Z   Downloading jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.6171973Z Collecting mcp-types==2.2.0 (from mcp==2.2.0->-r requirements.txt (line 1))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.6212989Z   Downloading mcp_types-2.2.0-py3-none-any.whl.metadata (1.9 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.6359201Z Collecting opentelemetry-api>=1.28.0 (from mcp==2.2.0->-r requirements.txt (line 1))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.6396299Z   Downloading opentelemetry_api-1.45.0-py3-none-any.whl.metadata (1.4 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.7192182Z Collecting pydantic>=2.12.0 (from mcp==2.2.0->-r requirements.txt (line 1))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.7233093Z   Downloading pydantic-2.13.5-py3-none-any.whl.metadata (110 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.7494945Z Collecting pyjwt>=2.10.1 (from pyjwt[crypto]>=2.10.1->mcp==2.2.0->-r requirements.txt (line 1))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.7541207Z   Downloading pyjwt-2.15.1-py3-none-any.whl.metadata (3.5 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.7659948Z Collecting python-multipart>=0.0.9 (from mcp==2.2.0->-r requirements.txt (line 1))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.7708770Z   Downloading python_multipart-0.0.32-py3-none-any.whl.metadata (2.1 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.7880280Z Collecting sse-starlette>=3.0.0 (from mcp==2.2.0->-r requirements.txt (line 1))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.7927704Z   Downloading sse_starlette-3.5.0-py3-none-any.whl.metadata (15 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.8237382Z Collecting starlette>=0.27 (from mcp==2.2.0->-r requirements.txt (line 1))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.8288136Z   Downloading starlette-1.7.0-py3-none-any.whl.metadata (6.6 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.8426583Z Collecting typing-extensions>=4.13.0 (from mcp==2.2.0->-r requirements.txt (line 1))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.8464235Z   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.8553592Z Collecting typing-inspection>=0.4.1 (from mcp==2.2.0->-r requirements.txt (line 1))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.8588776Z   Downloading typing_inspection-0.4.4-py3-none-any.whl.metadata (2.6 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.8737549Z Collecting httpx>=0.27 (from ollama==0.6.3->-r requirements.txt (line 2))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.8785329Z   Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.8907295Z Collecting iniconfig>=1.0.1 (from pytest==9.1.1->-r requirements.txt (line 3))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.8945759Z   Downloading iniconfig-2.3.0-py3-none-any.whl.metadata (2.5 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.9074143Z Collecting packaging>=22 (from pytest==9.1.1->-r requirements.txt (line 3))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.9110808Z   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.9212302Z Collecting pluggy<2,>=1.5 (from pytest==9.1.1->-r requirements.txt (line 3))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.9246765Z   Downloading pluggy-1.6.0-py3-none-any.whl.metadata (4.8 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.9404636Z Collecting pygments>=2.7.2 (from pytest==9.1.1->-r requirements.txt (line 3))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.9441761Z   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.9623631Z Collecting annotated-doc>=0.0.2 (from fastapi==0.142.2->-r requirements.txt (line 4))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.9675355Z   Downloading annotated_doc-0.0.5-py3-none-any.whl.metadata (6.5 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.9841616Z Collecting click>=7.0 (from uvicorn==0.54.0->-r requirements.txt (line 5))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.9877777Z   Downloading click-8.5.0-py3-none-any.whl.metadata (2.6 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:39.9969504Z Collecting h11>=0.8 (from uvicorn==0.54.0->-r requirements.txt (line 5))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:40.0016872Z   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:40.0153105Z Collecting idna>=2.8 (from anyio>=4.9->mcp==2.2.0->-r requirements.txt (line 1))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:40.0187574Z   Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:40.0520502Z Collecting certifi (from httpx>=0.27->ollama==0.6.3->-r requirements.txt (line 2))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:40.0559843Z   Downloading certifi-2026.7.22-py3-none-any.whl.metadata (2.5 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:40.0696228Z Collecting httpcore==1.* (from httpx>=0.27->ollama==0.6.3->-r requirements.txt (line 2))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:40.0734171Z   Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:40.0878287Z Collecting httpcore2==2.13.1 (from httpx2>=2.5.0->mcp==2.2.0->-r requirements.txt (line 1))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:40.0913521Z   Downloading httpcore2-2.13.1-py3-none-any.whl.metadata (26 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:40.1030550Z Collecting truststore>=0.10 (from httpx2>=2.5.0->mcp==2.2.0->-r requirements.txt (line 1))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:40.1070713Z   Downloading truststore-0.10.4-py3-none-any.whl.metadata (4.4 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:40.1218853Z Collecting attrs>=22.2.0 (from jsonschema>=4.20.0->mcp==2.2.0->-r requirements.txt (line 1))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:40.1254436Z   Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:40.1364281Z Collecting jsonschema-specifications>=2023.03.6 (from jsonschema>=4.20.0->mcp==2.2.0->-r requirements.txt (line 1))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:40.1401710Z   Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:40.1565725Z Collecting referencing>=0.28.4 (from jsonschema>=4.20.0->mcp==2.2.0->-r requirements.txt (line 1))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:40.1604182Z   Downloading referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:40.3602220Z Collecting rpds-py>=0.25.0 (from jsonschema>=4.20.0->mcp==2.2.0->-r requirements.txt (line 1))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:40.3644364Z   Downloading rpds_py-2026.6.3-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:40.3773638Z Collecting annotated-types>=0.6.0 (from pydantic>=2.12.0->mcp==2.2.0->-r requirements.txt (line 1))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:40.3834854Z   Downloading annotated_types-0.8.0-py3-none-any.whl.metadata (15 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:40.9252516Z Collecting pydantic-core==2.46.5 (from pydantic>=2.12.0->mcp==2.2.0->-r requirements.txt (line 1))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:40.9291110Z   Downloading pydantic_core-2.46.5-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.6 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.1161772Z Collecting cryptography>=3.4.0 (from pyjwt[crypto]>=2.10.1->mcp==2.2.0->-r requirements.txt (line 1))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.1202184Z   Downloading cryptography-50.0.2-cp311-abi3-manylinux_2_34_x86_64.whl.metadata (4.4 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.2024968Z Collecting cffi>=2.0.0 (from cryptography>=3.4.0->pyjwt[crypto]>=2.10.1->mcp==2.2.0->-r requirements.txt (line 1))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.2063019Z   Downloading cffi-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.5 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.2167396Z Collecting pycparser (from cffi>=2.0.0->cryptography>=3.4.0->pyjwt[crypto]>=2.10.1->mcp==2.2.0->-r requirements.txt (line 1))
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.2207168Z   Downloading pycparser-3.0-py3-none-any.whl.metadata (8.2 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.2390108Z Downloading mcp-2.2.0-py3-none-any.whl (365 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.2490012Z Downloading ollama-0.6.3-py3-none-any.whl (16 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.2650197Z Downloading pytest-9.1.1-py3-none-any.whl (386 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.2734625Z Downloading fastapi-0.142.2-py3-none-any.whl (144 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.2793611Z Downloading uvicorn-0.54.0-py3-none-any.whl (87 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.2847419Z Downloading mcp_types-2.2.0-py3-none-any.whl (69 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.2902644Z Downloading pluggy-1.6.0-py3-none-any.whl (20 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.3022178Z Downloading annotated_doc-0.0.5-py3-none-any.whl (5.3 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.3074072Z Downloading anyio-4.15.1-py3-none-any.whl (132 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.3129113Z Downloading click-8.5.0-py3-none-any.whl (125 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.3181026Z Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.3231218Z Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.3283789Z Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.3334815Z Downloading httpx2-2.13.1-py3-none-any.whl (95 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.3388933Z Downloading httpcore2-2.13.1-py3-none-any.whl (83 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.3440952Z Downloading idna-3.20-py3-none-any.whl (69 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.3506836Z Downloading iniconfig-2.3.0-py3-none-any.whl (7.5 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.3558505Z Downloading jsonschema-4.26.0-py3-none-any.whl (90 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.3615713Z Downloading attrs-26.1.0-py3-none-any.whl (67 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.3668816Z Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.3721292Z Downloading opentelemetry_api-1.45.0-py3-none-any.whl (60 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.3774635Z Downloading packaging-26.3-py3-none-any.whl (129 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.3828369Z Downloading pydantic-2.13.5-py3-none-any.whl (472 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.3889971Z Downloading pydantic_core-2.46.5-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.1 MB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.4270077Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 51.0 MB/s  0:00:00
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.4313664Z Downloading annotated_types-0.8.0-py3-none-any.whl (13 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.4367003Z Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.4467789Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 121.6 MB/s  0:00:00
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.4506130Z Downloading pyjwt-2.15.1-py3-none-any.whl (33 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.4556504Z Downloading cryptography-50.0.2-cp311-abi3-manylinux_2_34_x86_64.whl (4.8 MB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.4893267Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.8/4.8 MB 142.5 MB/s  0:00:00
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.4946440Z Downloading cffi-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (221 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.5014295Z Downloading python_multipart-0.0.32-py3-none-any.whl (30 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.5065136Z Downloading referencing-0.37.0-py3-none-any.whl (26 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.5118624Z Downloading rpds_py-2026.6.3-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (366 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.5193114Z Downloading sse_starlette-3.5.0-py3-none-any.whl (17 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.5251685Z Downloading starlette-1.7.0-py3-none-any.whl (78 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.5306212Z Downloading truststore-0.10.4-py3-none-any.whl (18 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.5360438Z Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.5438871Z Downloading typing_inspection-0.4.4-py3-none-any.whl (14 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.5491530Z Downloading certifi-2026.7.22-py3-none-any.whl (136 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.5552076Z Downloading pycparser-3.0-py3-none-any.whl (48 kB)
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:41.7101093Z Installing collected packages: typing-extensions, truststore, rpds-py, python-multipart, pyjwt, pygments, pycparser, pluggy, packaging, iniconfig, idna, h11, click, certifi, attrs, annotated-types, annotated-doc, uvicorn, typing-inspection, referencing, pytest, pydantic-core, opentelemetry-api, httpcore2, httpcore, cffi, anyio, starlette, pydantic, jsonschema-specifications, httpx2, httpx, cryptography, sse-starlette, ollama, mcp-types, jsonschema, fastapi, mcp
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:44.4591877Z 
+pytest	Run pip install -r requirements.txt	2026-10-02T18:43:44.4623827Z Successfully installed annotated-doc-0.0.5 annotated-types-0.8.0 anyio-4.15.1 attrs-26.1.0 certifi-2026.7.22 cffi-2.1.1 click-8.5.0 cryptography-50.0.2 fastapi-0.142.2 h11-0.16.0 httpcore-1.0.9 httpcore2-2.13.1 httpx-0.28.1 httpx2-2.13.1 idna-3.20 iniconfig-2.3.0 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 mcp-2.2.0 mcp-types-2.2.0 ollama-0.6.3 opentelemetry-api-1.45.0 packaging-26.3 pluggy-1.6.0 pycparser-3.0 pydantic-2.13.5 pydantic-core-2.46.5 pygments-2.21.0 pyjwt-2.15.1 pytest-9.1.1 python-multipart-0.0.32 referencing-0.37.0 rpds-py-2026.6.3 sse-starlette-3.5.0 starlette-1.7.0 truststore-0.10.4 typing-extensions-4.16.0 typing-inspection-0.4.4 uvicorn-0.54.0
+pytest	Run pytest	﻿2026-10-02T18:43:44.5861025Z ##[group]Run pytest
+pytest	Run pytest	2026-10-02T18:43:44.5861277Z [36;1mpytest[0m
+pytest	Run pytest	2026-10-02T18:43:44.5927158Z shell: /usr/bin/bash -e {0}
+pytest	Run pytest	2026-10-02T18:43:44.5927404Z env:
+pytest	Run pytest	2026-10-02T18:43:44.5927653Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+pytest	Run pytest	2026-10-02T18:43:44.5928034Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+pytest	Run pytest	2026-10-02T18:43:44.5928390Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+pytest	Run pytest	2026-10-02T18:43:44.5928710Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+pytest	Run pytest	2026-10-02T18:43:44.5929028Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+pytest	Run pytest	2026-10-02T18:43:44.5929369Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+pytest	Run pytest	2026-10-02T18:43:44.5929647Z ##[endgroup]
+pytest	Run pytest	2026-10-02T18:43:46.1259501Z ============================= test session starts ==============================
+pytest	Run pytest	2026-10-02T18:43:46.1260477Z platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+pytest	Run pytest	2026-10-02T18:43:46.1260827Z rootdir: /home/runner/work/claims-mcp/claims-mcp
+pytest	Run pytest	2026-10-02T18:43:46.1261184Z plugins: anyio-4.15.1
+pytest	Run pytest	2026-10-02T18:43:46.1261382Z collected 40 items
+pytest	Run pytest	2026-10-02T18:43:46.1261493Z 
+pytest	Run pytest	2026-10-02T18:43:46.1383182Z test_agent.py ................                                           [ 40%]
+pytest	Run pytest	2026-10-02T18:43:46.1415214Z test_catalog.py ......                                                   [ 55%]
+pytest	Run pytest	2026-10-02T18:43:46.1438732Z test_queue.py ..                                                         [ 60%]
+pytest	Run pytest	2026-10-02T18:43:46.2157634Z test_tools.py ................                                           [100%]
+pytest	Run pytest	2026-10-02T18:43:46.2158107Z 
+pytest	Run pytest	2026-10-02T18:43:46.2158310Z ============================== 40 passed in 1.02s ==============================
+pytest	Post Run actions/setup-python@v5	﻿2026-10-02T18:43:46.3886387Z Post job cleanup.
+pytest	Post Run actions/setup-python@v5	2026-10-02T18:43:46.4951224Z (node:2116) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+pytest	Post Run actions/setup-python@v5	2026-10-02T18:43:46.4952688Z (Use `node --trace-deprecation ...` to show where the warning was created)
+pytest	Post Run actions/checkout@v4	﻿2026-10-02T18:43:46.5123246Z Post job cleanup.
+pytest	Post Run actions/checkout@v4	2026-10-02T18:43:46.5939029Z [command]/usr/bin/git version
+pytest	Post Run actions/checkout@v4	2026-10-02T18:43:46.5977914Z git version 2.55.0
+pytest	Post Run actions/checkout@v4	2026-10-02T18:43:46.6008966Z Temporarily overriding HOME='/home/runner/work/_temp/b4122bff-4482-4ee7-a5f6-fd4f6d9dbcc8' before making global git config changes
+pytest	Post Run actions/checkout@v4	2026-10-02T18:43:46.6010228Z Adding repository directory to the temporary git global config as a safe directory
+pytest	Post Run actions/checkout@v4	2026-10-02T18:43:46.6013476Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/claims-mcp/claims-mcp
+pytest	Post Run actions/checkout@v4	2026-10-02T18:43:46.6049958Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+pytest	Post Run actions/checkout@v4	2026-10-02T18:43:46.6081372Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+pytest	Post Run actions/checkout@v4	2026-10-02T18:43:46.6338740Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+pytest	Post Run actions/checkout@v4	2026-10-02T18:43:46.6366015Z http.https://github.com/.extraheader
+pytest	Post Run actions/checkout@v4	2026-10-02T18:43:46.6409430Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+pytest	Post Run actions/checkout@v4	2026-10-02T18:43:46.6455862Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+pytest	Post Run actions/checkout@v4	2026-10-02T18:43:46.6688805Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+pytest	Post Run actions/checkout@v4	2026-10-02T18:43:46.6738449Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+pytest	Complete job	﻿2026-10-02T18:43:46.7112789Z Cleaning up orphan processes
+pytest	Complete job	2026-10-02T18:43:46.7409341Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
